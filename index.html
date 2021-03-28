@@ -1,7 +1,47 @@
 <!DOCTYPE html>
 <html>
+
+<head>
+  <title>onilyxe</title>
+  <link href="css.css" rel="stylesheet" media="screen">
+  <link href="colours.css" rel="stylesheet" media="screen">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <script src="https://kit.fontawesome.com/774c408d8c.js" crossorigin="anonymous"></script>
+  <script defer src="script.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+  <div id="wrap">
+    <img src="avatar.jpg">
+    <div>
+      <div>Dmitry <br>Hradov</div>
+      <div>Somewhat of a coder <br>from Ukraine, <span id="age"></span></div>
+      <ul id="links">
+        <li id="telegramSpoiler"><a href="javascript:openSpoiler('#telegram');"><i class="fab fa-telegram-plane fa-fw"></i> Telegram</a></li>
+        <li id="vk"><a href="https://vk.com/onilyxe"><i class="fab fa-vk fa-fw"></i> VK</a></li>
+        <li id="instagram"><a href="https://instagram.com/onilyxe"><i class="fab fa-instagram fa-fw"></i> Instagram</a></li>
+        <li id="spotify"><a href="https://open.spotify.com/user/lyubimych"><i class="fab fa-spotify fa-fw"></i> Spotify</a></li>
+        <li id="donateSpoiler"><a href="javascript:openSpoiler('#donate');"><i class="fas fa-donate fa-fw"></i> Donate</a></li>
+      </ul>
+      <ul id="telegram">
+        <li class="backButton"><a href="javascript:goBack('#telegram')"><i class="fas fa-angle-left fa-fw"></i> Back</a></li>
+        <li><a href="tg://resolve?domain=onilyxe"><i class="fab fa-telegram fa-fw""></i> Message</a></li>
+        <li><a href="tg://resolve?domain=eblochel"><i class="fas fa-bullhorn fa-fw"></i> Blog</a></li>
+        <li><a href="tg://resolve?domain=eblogram"><i class="fas fa-bullhorn fa-fw"></i> Eblogram</a></li>
+        <li><a href="tg://resolve?domain=eblazzers"><i class="fas fa-bullhorn fa-fw"></i> Eblazzers</a></li>
+        <li><a href="tg://resolve?domain=repomem"><i class="fas fa-bullhorn fa-fw"></i> Repomem</a></li>
+      </ul>
+      <ul id="donate">
+        <li class="backButton"><a href="javascript:goBack('#donate')"><i class="fas fa-angle-left fa-fw"></i> Back</a></li>
+        <li><a href="https://send.monobank.ua/2iTMMVkhzo"><i class="fas fa-university fa-fw"></i> MonoBank</a></li>
+        <li><a href="https://qiwi.com/n/onilyxe"><i class="fas fa-kiwi-bird fa-fw"></i> Qiwi</a></li>
+        <li><a href="https://telegra.ph/Eblogram-FAQs-05-27#Донат"><i class="fas fa-list fa-fw"></i> Other</a></li>
+      </ul>
+    </div>
+  </div>
 </body>
+
 </html>
