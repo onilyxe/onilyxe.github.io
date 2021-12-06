@@ -1,0 +1,128 @@
+::selection {
+  background: #e34234;
+  color: black;
+}
+
+html {
+  box-sizing: border-box;
+  width: 100%;
+  scrollbar-width: thin;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  background-color: rgb(9, 9, 9);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+main {
+  margin: auto;
+  padding: 30px;
+}
+
+h1,
+h2,
+p,
+a {
+  color: #cecece;
+  font-size: 24px;
+}
+
+h1 {
+  font-size: 80px;
+  margin: 0;
+  font-weight: normal;
+  font-weight: 500;
+  line-height: 1;
+  color: #e34234;
+}
+
+.nickname {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+h2 {
+  margin: 0;
+  font-weight: bold;
+}
+img {
+  float: left;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.bio p {
+  font-size: 30px;
+  margin-bottom: 0.7em;
+}
+
+.links a {
+  margin: 0;
+  margin-top: 1em;
+  text-decoration: none;
+}
+.links a:hover {
+  text-decoration: underline;
+}
+.links p {
+  margin: 0;
+  margin-top: 0.3em;
+}
+.links svg {
+  vertical-align: bottom;
+  margin-right: 5px;
+}
+
+.button-link p {
+  margin-top: 2em;
+}
+.button-link a {
+  font-weight: lighter;
+  text-decoration: none;
+  background-color: #252525;
+  border: 1px solid #454545;
+  border-radius: 12px;
+  padding: 10;
+  padding-left: 20;
+  padding-right: 20;
+}
+.button-link a:hover {
+  background-color: #e34234;
+  border: 1px solid #e34234;
+  color: #000000;
+}
+
+@media (max-width: 650px) {
+  main h1 {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 650px) {
+  main h1 {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 350px) {
+  main h1 {
+    font-size: 30px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  .bio p {
+    font-size: 25px;
+    margin-bottom: 0.7em;
+  }
+  .button-link a {
+    font-size: 20px;
+  }
+}
