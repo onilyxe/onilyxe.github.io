@@ -14,7 +14,22 @@ html {
 body {
   margin: 0;
   display: flex;
-  background-color: rgb(9, 9, 9);
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  -webkit-animation: gradient 15s ease infinite;
+          animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 html,
@@ -32,6 +47,20 @@ p,
 a {
   color: #cecece;
   font-size: 24px;
+}
+
+.everything
+{
+  border-radius: 50px;
+    width: auto;
+  position: relative;
+  -webkit-backdrop-filter: blur(255px);
+          backdrop-filter: blur(255px);
+  border: 2px solid rgba(255, 255, 255, 0.2509803922);
+  padding: 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .bio p {
