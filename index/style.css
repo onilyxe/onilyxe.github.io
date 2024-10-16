@@ -73,8 +73,9 @@ body::before {
   font-size: 20px;
 }
 .profile-card__desc h2 {
-  font-size: 25px;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: regular;
+  line-height: 0.9;
 }
 .profile-card__desc h2 + div {
   font-size: 20px;
