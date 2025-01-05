@@ -119,20 +119,12 @@ body::before {
   background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
   box-shadow: 0 4px 30px rgba(120, 64, 190, 0.6);
 }
-.profile-card__social a.spotify {
-  background: linear-gradient(45deg, #00cc66, #80ffbf);
-  box-shadow: 0 4px 30px rgba(7, 194, 32, 0.6);
-}
 .profile-card__social a.github {
   background: linear-gradient(45deg, #75a3a3, #1f2e2e);
   box-shadow: 0 4px 30px rgba(21, 13, 27, 0.616);
 }
-.profile-card__social a.twitter {
-  background: linear-gradient(45deg, #1da1f2, #0e71c8);
-  box-shadow: 0 4px 30px rgba(16, 153, 216, 0.6);
-}
-.profile-card__social a.discord {
-  background: linear-gradient(45deg, #717fce, #6f88a3);
+.profile-card__social a.other {
+  background: linear-gradient(45deg, #75a3a3, #1f2e2e);
   box-shadow: 0 4px 30px rgba(21, 13, 27, 0.616);
 }
 .profile-card__actions {
