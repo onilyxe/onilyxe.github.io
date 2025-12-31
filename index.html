@@ -1,77 +1,1193 @@
 <meta http-equiv="refresh" content="0; url=https://onilyxe.com">
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>onilyxe</title>
-    <link rel="icon" type="image/png" href="./favicon.png">
-    <link rel="stylesheet" href="index/style.css">
-    <link rel="stylesheet" href="index/reset.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>onilyxe</title>
+  <link rel="icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ctext y=".9em" font-size="90"%3E%F0%9F%93%A1%3C/text%3E%3C/svg%3E' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root{
+      --text:#e9eef7;
+      --muted:rgba(233,238,247,.65);
+      --card: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.10);
+      --shadow: 0 20px 60px rgba(0,0,0,.55);
+      --btn: rgba(255,255,255,.07);
+      --btn2: rgba(255,255,255,.10);
+      --radius: 22px;
+      --blur: 14px;
+      --anim: cubic-bezier(.2,.9,.2,1);
+      --c1: hsl(260 80% 12%);
+      --c2: hsl(200 85% 12%);
+      --c3: hsl(320 80% 12%);
+      --c4: hsl(160 85% 12%);
+      --glow: rgba(120, 170, 255, .35);
+    }
+
+    body[data-theme="light"]{
+      --text:#101827;
+      --muted:rgba(16,24,39,.65);
+      --card: rgba(255,255,255,.58);
+      --stroke: rgba(16,24,39,.12);
+      --shadow: 0 20px 60px rgba(0,0,0,.18);
+      --btn: rgba(255,255,255,.62);
+      --btn2: rgba(255,255,255,.82);
+    }
+
+    body[data-theme="dark"] .icon-btn .signal-icon{
+      filter: invert(1) brightness(1.1) contrast(1.05);
+    }
+
+    *{ box-sizing:border-box; }
+        html{
+      background: transparent;
+    }
+    html,body{ height:100%; overflow-x:hidden; }
+
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: "Roboto Flex", system-ui, -apple-system, Segoe UI, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      font-variation-settings: "opsz" 24;
+      background: #05070c;
+      transition: color .55s ease, background-color .55s ease;
+    }
+
+    button, .pill, .theme-toggle, .copy{ font-family: inherit; font-variation-settings: inherit; }
+
+    body::after{
+      content:"";
+      position:fixed;
+      inset:-2px;
+      z-index:-4;
+      background: linear-gradient(120deg, var(--c1), var(--c2), var(--c3), var(--c4));
+      filter: saturate(115%) contrast(105%);
+      transform: translateZ(0);
+      will-change: background;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-2px;
+      z-index:-3;
+      pointer-events:none;
+      opacity:.22;
+      mix-blend-mode: soft-light;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+      animation: grain 16s linear infinite;
+      transform: translateZ(0);
+    }
+    @keyframes grain{
+      0%{ transform:translate3d(0,0,0); }
+      100%{ transform:translate3d(-80px,-80px,0); }
+    }
+
+    .noise2{
+      position:fixed;
+      inset:-2px;
+      z-index:-2;
+      pointer-events:none;
+      opacity:.10;
+      mix-blend-mode: soft-light;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='1.4' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+    }
+
+    .vignette{
+      position:fixed;
+      inset:-2px;
+      z-index:-1;
+      pointer-events:none;
+      background:
+        radial-gradient(1200px 800px at 50% 20%, rgba(255,255,255,.06), transparent 55%),
+        radial-gradient(1200px 800px at 50% 80%, rgba(0,0,0,.25), transparent 60%);
+      opacity:.55;
+      filter: blur(.2px);
+    }
+
+    body.is-paused::before{ animation-play-state: paused; }
+
+    .wrap{
+      height:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding: 28px 18px calc(28px + env(safe-area-inset-bottom));
+      width:100vw;
+      overflow:hidden;
+    }
+
+    .theme-toggle{
+      position:fixed;
+      top:16px; right:16px;
+      height:44px;
+      padding: 0 12px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: var(--btn);
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      color: var(--text);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+      transition: transform .2s var(--anim), background-color .55s ease, border-color .55s ease, color .55s ease;
+      z-index: 50;
+      user-select:none;
+    }
+    .theme-toggle:hover{ transform: translateY(-1px) scale(1.02); background: var(--btn2); }
+    .theme-toggle:active{ transform: translateY(0) scale(.99); }
+    .theme-badge{ font-weight: 800; font-size: 12px; letter-spacing: .02em; opacity: .85; }
+
+    .card{
+      width: min(560px, calc(100vw - 36px));
+      margin: 0 auto;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+      box-shadow: var(--shadow);
+      padding: 26px 22px 20px;
+      text-align:center;
+      overflow:visible;
+      transition: background-color .55s ease, border-color .55s ease, box-shadow .55s ease, color .55s ease;
+    }
+
+    .card :where(h1,.aka,.desc,.icon-btn,.pill){
+      transition: color .55s ease, background-color .55s ease, border-color .55s ease, box-shadow .55s ease, opacity .55s ease;
+    }
+
+    .stagger > *{
+      opacity:0;
+      transform: translateY(10px);
+      filter: blur(2px);
+    }
+    .stagger.is-in > *{ animation: rise .7s var(--anim) forwards; }
+    .stagger.is-in > *:nth-child(1){ animation-delay: .05s; }
+    .stagger.is-in > *:nth-child(2){ animation-delay: .12s; }
+    .stagger.is-in > *:nth-child(3){ animation-delay: .19s; }
+    .stagger.is-in > *:nth-child(4){ animation-delay: .26s; }
+    .stagger.is-in > *:nth-child(5){ animation-delay: .33s; }
+    .stagger.is-in > *:nth-child(6){ animation-delay: .40s; }
+    @keyframes rise{ to{ opacity:1; transform: translateY(0); filter: blur(0);} }
+
+    body.no-stagger .stagger > *{
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+      animation: none !important;
+    }
+
+    .avatar-wrap{ width: 128px; height:128px; margin: 6px auto 14px; position: relative; }
+    .avatar{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      border-radius:999px;
+      border: 2px solid rgba(255,255,255,.18);
+      object-fit: cover;
+      will-change: opacity, transform;
+      box-shadow:
+        0 18px 40px rgba(0,0,0,.35),
+        0 0 0 10px rgba(255,255,255,.02),
+        0 0 60px var(--glow);
+    }
+    .avatar-night{ opacity:1; transform: scale(1); }
+    .avatar-day{ opacity:0; transform: scale(1.02); }
+    body[data-theme="light"] .avatar-night{ opacity:0; transform: scale(1.02); }
+    body[data-theme="light"] .avatar-day{ opacity:1; transform: scale(1); }
+
+    h1{
+      margin: 0;
+      font-size: 52px;
+      letter-spacing: -0.02em;
+      line-height:1.05;
+      font-weight: 900;
+      transition: color .55s ease;
+    }
+    .aka{ margin-top: 6px; font-size: 14px; color: var(--muted); letter-spacing:.02em; font-weight: 520; }
+    .desc{ margin: 10px 0 18px; font-style: italic; font-variation-settings: "opsz" 20, "slnt" -8; }
+
+    .icon-row{
+      display:flex;
+      gap: 12px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin: 10px 0 18px;
+    }
+
+    .icon-btn{
+      width: 44px; height: 44px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: var(--btn);
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+      color: var(--text);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      text-decoration:none;
+      position: relative;
+      overflow: visible;
+      transition: transform .2s var(--anim), background-color .55s ease, border-color .55s ease, color .55s ease;
+    }
+    .icon-btn:hover{ transform: translateY(-1px) scale(1.04); background: var(--btn2); }
+    .icon-btn:active{ transform: translateY(0) scale(.98); }
+    .icon-btn img{
+      width: 22px;
+      height: 22px;
+      display:block;
+      transition: filter .55s ease, opacity .55s ease, transform .2s var(--anim);
+      will-change: filter;
+    }
+
+    .pill-row{ display:flex; justify-content:center; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: var(--btn);
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+      color: var(--text);
+      cursor:pointer;
+      font-weight: 800;
+      letter-spacing:.01em;
+      user-select:none;
+      transition: transform .2s var(--anim), background-color .55s ease, border-color .55s ease, color .55s ease;
+    }
+    .pill:hover{ transform: translateY(-1px) scale(1.02); background: var(--btn2); }
+    .pill:active{ transform: translateY(0) scale(.99); }
+
+    .modal-overlay{
+      position: fixed; inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      background: rgba(0,0,0,.68);
+      z-index: 100;
+
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+
+      transition: opacity .22s ease, visibility 0s linear .22s;
+      will-change: opacity;
+      transform: translateZ(0);
+    }
+    body[data-theme="light"] .modal-overlay{ background: rgba(0,0,0,.45); }
+
+    .modal-overlay::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 600px at 50% 35%, rgba(0,0,0,.15), rgba(0,0,0,.55));
+      opacity: 0;
+      transition: opacity .22s ease;
+    }
+    .modal-overlay.is-open::before{ opacity: 1; }
+
+    .modal-overlay.is-open{
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
+      transition: opacity .22s ease, visibility 0s linear 0s;
+    }
+
+    .modal{
+      width: min(620px, 96vw);
+      border-radius: 18px;
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      position: relative;
+      z-index: 1;
+
+      backdrop-filter: blur(calc(var(--blur) + 6px));
+      -webkit-backdrop-filter: blur(calc(var(--blur) + 6px));
+
+      box-shadow: var(--shadow);
+      padding: 18px;
+
+      transform: translateY(18px) scale(.96);
+      opacity:0;
+      transition: transform .30s var(--anim), opacity .30s ease, background-color .55s ease, border-color .55s ease, color .55s ease;
+
+      max-height: calc(100vh - 36px);
+      overflow: hidden;
+      overscroll-behavior: contain;
+    }
+    .modal::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      pointer-events:none;
+      z-index:0;
+      opacity:.28;
+      background:
+        radial-gradient(900px 520px at 20% 15%, color-mix(in srgb, var(--c3) 55%, transparent), transparent 60%),
+        radial-gradient(900px 520px at 80% 25%, color-mix(in srgb, var(--c2) 55%, transparent), transparent 62%),
+        radial-gradient(900px 520px at 50% 90%, color-mix(in srgb, var(--c4) 45%, transparent), transparent 65%);
+      filter: saturate(125%) contrast(110%);
+    }
+
+    /* Контент модалки поверх цветного слоя */
+    .modal > *{
+      position: relative;
+      z-index: 1;
+    }
+    .modal-overlay.is-open .modal{ transform: translateY(0) scale(1); opacity:1; }
+
+    #modal-more .modal{
+      overflow: visible;
+      max-height: none;
+    }
+
+    .modal.modal-auto{
+      width: fit-content;
+      max-width: min(620px, 96vw);
+      min-width: 280px;
+    }
+
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .modal-title{ display:flex; align-items:center; gap: 10px; font-size: 16px; font-weight: 900; letter-spacing:.01em; }
+    .modal-close{
+      width: 38px; height:38px;
+      border-radius:999px;
+      border: 1px solid var(--stroke);
+      background: var(--btn);
+      color: var(--text);
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+      transition: transform .2s var(--anim), background-color .55s ease, border-color .55s ease, color .55s ease;
+    }
+    .modal-close:hover{ transform: scale(1.04); background: var(--btn2); }
+    .modal-close:active{ transform: scale(.98); }
+
+    .modal-body{ display:grid; gap: 10px; margin-top: 10px; }
+
+    .ch-list{ display:grid; gap: 10px; }
+    .ch-item{
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid var(--stroke);
+      background: color-mix(in srgb, var(--card) 85%, transparent);
+      text-decoration:none;
+      color: var(--text);
+      cursor:pointer;
+      transition: transform .2s var(--anim), background-color .55s ease, border-color .55s ease, color .55s ease;
+    }
+    .ch-item:hover{
+      transform: translateY(-1px);
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+    }
+    .ch-item:active{ transform: translateY(0) scale(.99); }
+    .ch-avatar{
+      width: 82px;
+      height: 82px;
+      border-radius: 18px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 10px 26px rgba(0,0,0,.28);
+      flex: 0 0 auto;
+    }
+    .ch-meta{
+      min-width:0;
+      display:grid;
+      gap: 6px;
+    }
+    .ch-title{
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: .01em;
+      line-height: 1.1;
+    }
+    .ch-desc{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .ch-link{
+      color: color-mix(in srgb, var(--text) 70%, var(--muted));
+      font-size: 12px;
+      font-weight: 800;
+      word-break: break-all;
+      opacity: .9;
+    }
+
+    .don-card{
+      display: grid;
+      grid-template-columns: 82px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid var(--stroke);
+      background: color-mix(in srgb, var(--card) 85%, transparent);
+    }
+
+    .don-avatar{
+      width: 82px;
+      height: 82px;
+      border-radius: 18px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 10px 26px rgba(0,0,0,.28);
+    }
+
+    .don-meta{
+      min-width: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .don-title{
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: .01em;
+      line-height: 1.1;
+    }
+
+    .don-lines{
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .donate-line{
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 44px;
+      gap: 10px;
+      align-items: center;
+
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: color-mix(in srgb, var(--btn) 75%, transparent);
+      min-width: 0;
+
+      transition: transform .2s var(--anim), background-color .55s ease, border-color .55s ease, color .55s ease;
+    }
+
+    .donate-line.is-link{ cursor: pointer; }
+    .donate-line.is-link:hover{
+      transform: translateY(-1px);
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+    }
+    .donate-line.is-link:active{ transform: translateY(0) scale(.99); }
+
+    .donate-left{
+      min-width: 0;
+      display: grid;
+      gap: 3px;
+    }
+
+    .donate-k{
+      font-size: 11px;
+      line-height: 1.15;
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .donate-v{
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 900;
+      color: var(--text);
+      word-break: break-all;
+    }
+
+    .donate-spacer{
+      width: 44px;
+      height: 44px;
+    }
+
+    .copy{
+      flex: 0 0 auto;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: var(--btn);
+      color: var(--text);
+      cursor:pointer;
+      font-weight: 900;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      transition: transform .2s var(--anim), background-color .55s ease, border-color .55s ease, color .55s ease;
+      justify-content:center;
+    }
+    .copy:hover{ transform: translateY(-1px); background: var(--btn2); }
+    .copy:active{ transform: translateY(0) scale(.99); }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) translateY(10px);
+      background: rgba(0,0,0,.72);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.15);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .22s ease, transform .22s var(--anim);
+      z-index: 200;
+      font-weight: 900;
+      font-size: 16px;
+      min-width: 44px;
+      text-align:center;
+    }
+    body[data-theme="light"] .toast{ background: rgba(0,0,0,.65); }
+    .toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 420px){
+      h1{ font-size: 42px; }
+      .avatar-wrap{ width: 116px; height:116px; }
+      .ch-avatar{ width: 76px; height: 76px; border-radius: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      body::before{ animation: none !important; }
+      .stagger.is-in > *{
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+      }
+      .theme-toggle,
+      .icon-btn,
+      .pill,
+      .modal,
+      .toast{
+        transition: none !important;
+      }
+    }
+
+    /* Lock body scroll when a modal is open */
+    body.modal-open{
+      overflow: hidden;
+    }
+  </style>
 </head>
-<body>
-    <div class="profile-card">
-        <figure class="profile-card__img">
-            <img src="index/avatar.png" alt="...">
-        </figure>
 
-        <div class="profile-card__desc">
-            <h1>onilyxe</h1>
-            <div>diemonik, 5011</div>
-            <h2>Ну давай розберемо по частинах, тобою написане )) Складається враження, що ти</h2>
-            <h2>реально контужений, скривджений життям імбіцил )) Можу тобі і в очі сказати,</h2>
-            <h2>готовий приїхати послухати? ) Вся та хуйня, яку ти написав, це просте</h2>
-            <h2>рембо ти кімнатний) ) від того, що ти багато написав, життя твоє</h2>
-            <h2>кращим не стане) ) пиздіти не мішки ворочати, багато вас таких </h2>
-            <h2>по весні відтануло )) Про таких як ти кажуть: Мама не хотіла,</h2>
-            <h2>тато не старався) Вникай у моє послання тобі: постарайся</h2>
-            <h2>проаналізувати і зробити висновки для себе)</h2>
+<body data-theme="dark">
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="noise2" aria-hidden="true"></div>
 
-            <div class="profile-card__social">
-                <a href="https://t.me/onilyxe" class="telegram">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-telegram" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"></path>
-                     </svg>
-                </a>
-                <a href="https://www.instagram.com/onilyxe/" class="instagram">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <rect x="4" y="4" width="16" height="16" rx="4"></rect>
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <line x1="16.5" y1="7.5" x2="16.5" y2="7.501"></line>
-                     </svg>
-                </a>
-                <a href="https://github.com/onilyxe" class="github">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path>
-                     </svg>
-                </a>
-                <a href="https://onilyxe.com/other.html" class="other">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-share" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <circle cx="6" cy="12" r="3"></circle>
-                    <circle cx="18" cy="6" r="3"></circle>
-                    <circle cx="18" cy="18" r="3"></circle>
-                    <line x1="8.7" y1="10.7" x2="15.3" y2="7.3"></line>
-                    <line x1="8.7" y1="13.3" x2="15.3" y2="16.7"></line>
-                </svg>
-                </a>
-            </div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Theme mode">
+    <i class="fa-solid fa-moon" id="themeIcon"></i>
+    <span class="theme-badge" id="themeBadge">Dark</span>
+  </button>
+
+  <div class="wrap">
+    <main class="card">
+      <div class="stagger" id="stagger">
+        <div class="avatar-wrap" aria-label="onilyxe avatar">
+          <img class="avatar avatar-night" src="avatarnight.jpg" alt="onilyxe (night)"/>
+          <img class="avatar avatar-day" src="avatarday.jpg" alt="onilyxe (day)"/>
         </div>
 
-        <div class="profile-card__actions">
-            <a class="blue" href="channels.html"><b>Канали</b></a>
-            <a class="blue2" href="bots.html"><b>Боти</b></a>
-            <a class="blue3" href="https://d.onilyxe.com/"><b>Донат</b></a>
-        </div>
+        <h1 id="name"></h1>
+        <div class="aka" id="aka"></div>
+        <div class="desc" id="desc"></div>
 
+        <div class="icon-row" id="mainLinks"></div>
+        <div class="pill-row" id="pills"></div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="modal-more" aria-hidden="true">
+    <div class="modal modal-auto" role="dialog" aria-modal="true" aria-label="More links">
+      <div class="modal-head">
+        <div class="modal-title"><i class="fa-solid fa-link"></i>More links</div>
+        <button class="modal-close" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="icon-row" id="moreLinksIcons"></div>
+      </div>
     </div>
+  </div>
 
-    
+  <div class="modal-overlay" id="modal-channels" aria-hidden="true">
+    <div class="modal modal-auto" role="dialog" aria-modal="true" aria-label="Channels">
+      <div class="modal-head">
+        <div class="modal-title"><i class="fa-solid fa-tower-broadcast"></i>Channels</div>
+        <button class="modal-close" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="ch-list" id="channelsList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-bots" aria-hidden="true">
+    <div class="modal modal-auto" role="dialog" aria-modal="true" aria-label="Bots">
+      <div class="modal-head">
+        <div class="modal-title"><i class="fa-solid fa-robot"></i>Bots</div>
+        <button class="modal-close" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="ch-list" id="botsList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-donate" aria-hidden="true">
+    <div class="modal modal-auto" role="dialog" aria-modal="true" aria-label="Donate">
+      <div class="modal-head">
+        <div class="modal-title"><i class="fa-solid fa-hand-holding-heart"></i>Donate</div>
+        <button class="modal-close" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="donateBody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const SITE = {
+      profile: {
+        name: "onilyxe",
+        aka: "aka 5011, diemonik",
+        desc: "Я - футбольный мячик",
+      },
+
+      mainLinks: [
+        { title:"Telegram",  icon:"fa-brands fa-telegram",  url:"https://t.me/onilyxe" },
+
+        {
+          title: "Signal",
+          url: "https://signal.me/#eu/Spf-f7_c-6g2BzfFreRwJxC7RVFteZIw3ZNt7Hruiwxcn8rZ5sdLp4TmNSCLFRWZ",
+          img: "signal.svg",
+          imgClass: "signal-icon"
+        },
+
+        { title:"Instagram", icon:"fa-brands fa-instagram", url:"https://www.instagram.com/onilyxe" },
+        { title:"Twitch",    icon:"fa-brands fa-twitch",    url:"https://www.twitch.tv/on1lyxe" },
+        { title:"YouTube",   icon:"fa-brands fa-youtube",   url:"https://www.youtube.com/@onilyxe" },
+      ],
+
+      moreLinks: [
+        { title:"Steam",   icon:"fa-brands fa-steam",   url:"https://steamcommunity.com/id/onilyxe/" },
+        { title:"Spotify", icon:"fa-brands fa-spotify", url:"https://open.spotify.com/user/lyubimych" },
+        { title:"GitHub",  icon:"fa-brands fa-github",  url:"https://github.com/onilyxe" },
+      ],
+
+      channels: [
+        { title:"repomem", desc:"Щітпост + меми", url:"https://t.me/repomem", avatar:"repomem.jpg" },
+        { title:"5011",    desc:"Мілітарі контент", url:"https://t.me/UA5011", avatar:"5011.jpg" },
+      ],
+
+      bots: [
+        { title:"кокос📡",  desc:"Бот для зв'язку зі мною", url:"https://t.me/k0k0sbot", avatar:"kokos.jpg" },
+        { title:"crypto🇺🇦", desc:"Телеграм бот, який показує ціни на криптовалюти, та інше", url:"https://t.me/onilyxecryptobot", avatar:"crypto.jpg" },
+      ],
+
+      donate: [
+        { title:"Monobank", lines:[
+          { key:"За посиланням", value:"https://send.monobank.ua/2iTMMVkhzo", copy:true },
+          { key:"Або по номеру", value:"4441 1144 5939 6410", copy:true },
+        ]},
+        { title:"PrivatBank", lines:[
+          { key:"Номер картки", value:"4149 4993 7452 8881", copy:true },
+        ]},
+        { title:"PayPal", lines:[
+          { key:"За посиланням", value:"https://www.paypal.com/donate/?hosted_button_id=KLFBCADFSMZHC", copy:true },
+          { key:"Або через пошту", value:"onilyxe@gmail.com", copy:true },
+        ]},
+        { title:"Crypto", lines:[
+          { key:"USDT (TRC20)", value:"TSxMuxZeZjayGhE1FwiDmEX62U75os3UGn", copy:true },
+          { key:"BTC та ETH (ERC20)", value:"0x5d8a71f3dba07dcc734496cd1279d057c3f6d32f", copy:true },
+          { key:"TON", value:"UQCh8viNxw4ffDIvJzSmOn_undnOPA5AptQkcOF5Vz07_yGO", copy:true },
+        ]}
+      ]
+    };
+
+    const $ = (id)=>document.getElementById(id);
+    const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
+    const lerp = (a,b,t)=>a+(b-a)*t;
+
+    function el(tag, cls, html){
+      const e=document.createElement(tag);
+      if(cls) e.className=cls;
+      if(html!=null) e.innerHTML=html;
+      return e;
+    }
+
+    function renderProfile(){
+      $("name").textContent = SITE.profile.name;
+      $("aka").textContent  = SITE.profile.aka;
+      $("desc").textContent = SITE.profile.desc;
+    }
+
+    function renderMainLinks(){
+      const row = $("mainLinks");
+      row.innerHTML = "";
+
+      SITE.mainLinks.forEach(l=>{
+        const a = el("a","icon-btn");
+        setExternalLink(a, l.url, l.title);
+
+        if(l.img){
+          const img = document.createElement("img");
+          img.src = l.img;
+          img.alt = l.title;
+          img.decoding = "async";
+          img.className = "icon-img" + (l.imgClass ? " " + l.imgClass : "");
+          a.appendChild(img);
+        } else {
+          a.appendChild(el("i", l.icon));
+        }
+
+        row.appendChild(a);
+      });
+
+      const moreBtn = el("button","icon-btn");
+      moreBtn.setAttribute("data-open","modal-more");
+      moreBtn.setAttribute("aria-label","More links");
+      moreBtn.appendChild(el("i","fa-solid fa-ellipsis"));
+      row.appendChild(moreBtn);
+    }
+
+    function renderMoreLinksIcons(){
+      const row = $("moreLinksIcons");
+      row.innerHTML = "";
+      SITE.moreLinks.forEach(l=>{
+        const a = el("a","icon-btn");
+        setExternalLink(a, l.url, l.title);
+        a.appendChild(el("i", l.icon));
+        row.appendChild(a);
+      });
+    }
+
+    function renderPills(){
+      const row = $("pills");
+      row.innerHTML = "";
+      const items = [
+        { id:"modal-channels", icon:"fa-solid fa-tower-broadcast", text:"Channels" },
+        { id:"modal-bots",     icon:"fa-solid fa-robot",           text:"Bots" },
+        { id:"modal-donate",   icon:"fa-solid fa-hand-holding-heart", text:"Donate" },
+      ];
+      items.forEach(p=>{
+        const b = el("button","pill");
+        b.setAttribute("data-open", p.id);
+        b.appendChild(el("i", p.icon));
+        b.appendChild(document.createTextNode(p.text));
+        row.appendChild(b);
+      });
+    }
+
+    function setExternalLink(a, url, title){
+      a.href = url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      if(title) a.setAttribute("aria-label", title);
+    }
+
+    function isHttpUrl(s){
+      return /^https?:\/\/\S+/i.test(String(s || ""));
+    }
+
+    function renderDonate(){
+      const body = $("donateBody");
+      body.innerHTML = "";
+
+      const avatarByTitle = {
+        "Monobank": "monobank.jpg",
+        "PrivatBank": "privatbank.jpg",
+        "PayPal": "paypal.jpg",
+        "Crypto": "crypto.jpg",
+      };
+
+      SITE.donate.forEach(block=>{
+        const card = document.createElement("div");
+        card.className = "don-card";
+
+        const img = document.createElement("img");
+        img.className = "don-avatar";
+        img.src = block.avatar || avatarByTitle[block.title] || "";
+        img.alt = block.title || "Donate";
+        img.loading = "lazy";
+        img.decoding = "async";
+
+        const meta = document.createElement("div");
+        meta.className = "don-meta";
+
+        const title = document.createElement("div");
+        title.className = "don-title";
+        title.textContent = block.title;
+
+        const linesWrap = document.createElement("div");
+        linesWrap.className = "don-lines";
+
+        (block.lines || []).forEach(line=>{
+          const val = String(line.value || "");
+          const isUrl = isHttpUrl(val);
+
+          const row = document.createElement("div");
+          row.className = "donate-line" + (isUrl ? " is-link" : "");
+
+          if(isUrl){
+            row.setAttribute("role", "link");
+            row.setAttribute("tabindex", "0");
+            row.setAttribute("aria-label", `${block.title}: ${line.key}`);
+
+            const go = ()=> window.open(val, "_blank", "noopener,noreferrer");
+            row.addEventListener("click", go);
+            row.addEventListener("keydown", (e)=>{
+              if(e.key === "Enter" || e.key === " "){
+                e.preventDefault();
+                go();
+              }
+            });
+          }
+
+          const left = document.createElement("div");
+          left.className = "donate-left";
+
+          const k = document.createElement("div");
+          k.className = "donate-k";
+          k.textContent = line.key;
+
+          const v = document.createElement("div");
+          v.className = "donate-v";
+          v.textContent = val;
+
+          left.appendChild(k);
+          left.appendChild(v);
+
+          row.appendChild(left);
+
+          if(line.copy && !isUrl){
+            const btn = document.createElement("button");
+            btn.className = "copy";
+            btn.setAttribute("data-copy-btn", val);
+            btn.setAttribute("aria-label", "Copy");
+            btn.innerHTML = `<i class="fa-regular fa-copy"></i>`;
+            row.appendChild(btn);
+          } else {
+            const spacer = document.createElement("div");
+            spacer.className = "donate-spacer";
+            row.appendChild(spacer);
+          }
+
+          linesWrap.appendChild(row);
+        });
+
+        meta.appendChild(title);
+        meta.appendChild(linesWrap);
+
+        card.appendChild(img);
+        card.appendChild(meta);
+        body.appendChild(card);
+      });
+    }
+
+
+    function renderList(targetId, items){
+      const wrap = $(targetId);
+      if(!wrap) return;
+      wrap.innerHTML = "";
+
+      (items || []).forEach(item=>{
+        const a = el("a","ch-item");
+        setExternalLink(a, item.url, item.title);
+
+        const img = el("img","ch-avatar");
+        img.src = item.avatar;
+        img.alt = item.title;
+        img.loading = "lazy";
+        img.decoding = "async";
+
+        const meta = el("div","ch-meta");
+        meta.appendChild(el("div","ch-title", item.title));
+        meta.appendChild(el("div","ch-desc", item.desc));
+        meta.appendChild(el("div","ch-link", item.url));
+
+        a.appendChild(img);
+        a.appendChild(meta);
+        wrap.appendChild(a);
+      });
+    }
+
+    function renderChannels(){ renderList("channelsList", SITE.channels); }
+    function renderBots(){ renderList("botsList", SITE.bots); }
+    function parseHsl(str){
+      const m = String(str).match(/hsl\(\s*([\d.]+)\s+([\d.]+)%\s+([\d.]+)%\s*\)/i);
+      if(!m) return {h:220,s:80,l:12};
+      return {h:+m[1], s:+m[2], l:+m[3]};
+    }
+    function toHsl({h,s,l}){ return `hsl(${h.toFixed(1)} ${s.toFixed(1)}% ${l.toFixed(1)}%)`; }
+    function randHsl(){
+      const h = Math.random()*360;
+      const s = 70 + Math.random()*20;
+      const l = 10 + Math.random()*10;
+      return {h,s,l};
+    }
+    function hslLerp(a,b,t){
+      let dh = ((b.h - a.h + 540) % 360) - 180;
+      return { h:(a.h + dh*t + 360)%360, s:lerp(a.s,b.s,t), l:lerp(a.l,b.l,t) };
+    }
+
+    (function bgSmooth(){
+      const root = document.documentElement;
+
+      let cur = [
+        parseHsl(getComputedStyle(root).getPropertyValue('--c1')),
+        parseHsl(getComputedStyle(root).getPropertyValue('--c2')),
+        parseHsl(getComputedStyle(root).getPropertyValue('--c3')),
+        parseHsl(getComputedStyle(root).getPropertyValue('--c4')),
+      ];
+      let from = cur.map(x=>({...x}));
+      let to   = cur.map(_=>randHsl());
+
+      const DURATION = 44000;
+      const HOLD     = 8000;
+      let t0 = performance.now();
+      let phase = "morph";
+
+      let paused = document.hidden;
+      let pauseAt = 0;
+
+      function setVars(arr){
+        root.style.setProperty('--c1', toHsl(arr[0]));
+        root.style.setProperty('--c2', toHsl(arr[1]));
+        root.style.setProperty('--c3', toHsl(arr[2]));
+        root.style.setProperty('--c4', toHsl(arr[3]));
+      }
+
+      function updateGlow(){
+        const mid = cur[1];
+        const c = document.createElement('canvas'); c.width=c.height=1;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = toHsl(mid);
+        ctx.fillRect(0,0,1,1);
+        const [r,g,b] = ctx.getImageData(0,0,1,1).data;
+        root.style.setProperty('--glow', `rgba(${r},${g},${b},.35)`);
+      }
+
+      document.addEventListener("visibilitychange", ()=>{
+        if(document.hidden){
+          paused = true;
+          pauseAt = performance.now();
+          document.body.classList.add("is-paused");
+        } else {
+          const now = performance.now();
+          t0 += (now - pauseAt);
+          paused = false;
+          document.body.classList.remove("is-paused");
+        }
+      });
+
+      function tick(now){
+        if(paused){ requestAnimationFrame(tick); return; }
+
+        if(phase === "morph"){
+          const t = clamp((now - t0)/DURATION, 0, 1);
+          cur = from.map((a,i)=>hslLerp(a, to[i], t));
+          setVars(cur);
+          if(t >= 1){
+            phase = "hold";
+            t0 = now;
+            from = cur.map(x=>({...x}));
+            updateGlow();
+          }
+        } else {
+          if(now - t0 >= HOLD){
+            phase = "morph";
+            t0 = now;
+            to = cur.map(_=>randHsl());
+            from = cur.map(x=>({...x}));
+          }
+        }
+        requestAnimationFrame(tick);
+      }
+      updateGlow();
+      requestAnimationFrame(tick);
+    })();
+
+    (function(){
+      const body = document.body;
+      const btn  = $("themeToggle");
+      const icon = $("themeIcon");
+      const badge= $("themeBadge");
+      const KEY  = "onilyxe_theme_mode";
+      const mq   = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+      const systemTheme = ()=> (mq && mq.matches) ? "dark" : "light";
+      const cap = (s)=> s ? s[0].toUpperCase()+s.slice(1) : s;
+
+      function setThemeColor(hex){
+        let meta = document.querySelector('meta[name="theme-color"]');
+        if(!meta){
+          meta = document.createElement('meta');
+          meta.name = 'theme-color';
+          document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', hex);
+      }
+
+      function apply(mode){
+        const t = (mode === "system") ? systemTheme() : mode;
+        body.setAttribute("data-theme", t);
+        badge.textContent = cap(mode);
+
+        if(mode === "system") icon.className = "fa-solid fa-circle-half-stroke";
+        else if(t === "light") icon.className = "fa-solid fa-sun";
+        else icon.className = "fa-solid fa-moon";
+      }
+
+      const getMode = ()=> localStorage.getItem(KEY) || "system";
+      const setMode = (m)=>{ localStorage.setItem(KEY, m); apply(m); };
+      const nextMode = (m)=> (m === "dark" ? "light" : (m === "light" ? "system" : "dark"));
+
+      setMode(getMode());
+      mq && mq.addEventListener && mq.addEventListener("change", ()=>{ if(getMode() === "system") apply("system"); });
+      btn.addEventListener("click", ()=> setMode(nextMode(getMode())) );
+    })();
+
+    (function(){
+      let lastFocus = null;
+
+      const open = (id, openerEl)=>{
+        const overlay = document.getElementById(id);
+        if(!overlay) return;
+
+        lastFocus = openerEl || document.activeElement;
+
+        document.body.classList.add("modal-open");
+        overlay.classList.add("is-open");
+        overlay.setAttribute("aria-hidden","false");
+
+        const closeBtn = overlay.querySelector('[data-close]');
+        closeBtn && closeBtn.focus({ preventScroll: true });
+      };
+
+      const close = (overlay)=>{
+        overlay.classList.remove("is-open");
+        overlay.setAttribute("aria-hidden","true");
+
+        if(!document.querySelector(".modal-overlay.is-open")){
+          document.body.classList.remove("modal-open");
+        }
+
+        if(lastFocus && typeof lastFocus.focus === "function"){
+          lastFocus.focus({ preventScroll: true });
+        }
+        lastFocus = null;
+      };
+
+      document.addEventListener("click", (e)=>{
+        const btn = e.target.closest("[data-open]");
+        if(btn){
+          open(btn.getAttribute("data-open"), btn);
+          return;
+        }
+
+        const closeBtn = e.target.closest("[data-close]");
+        if(closeBtn){
+          const overlay = closeBtn.closest(".modal-overlay");
+          if(overlay) close(overlay);
+          return;
+        }
+
+        const overlay = e.target.classList.contains("modal-overlay") ? e.target : null;
+        if(overlay && overlay.classList.contains("is-open")) close(overlay);
+      });
+
+      document.addEventListener("keydown", (e)=>{
+        if(e.key !== "Escape") return;
+        const opened = document.querySelector(".modal-overlay.is-open");
+        if(opened) close(opened);
+      });
+    })();
+
+    (function(){
+      const toast = $("toast");
+      let tmr;
+
+      const showToast = ()=>{
+        toast.textContent = "❤️";
+        toast.classList.add('show');
+        clearTimeout(tmr);
+        tmr = setTimeout(()=>toast.classList.remove('show'), 1200);
+      };
+
+      async function copyText(val){
+        try{ await navigator.clipboard.writeText(val); showToast(); }
+        catch{
+          const ta = document.createElement('textarea');
+          ta.value = val;
+          ta.style.position='fixed';
+          ta.style.opacity='0';
+          document.body.appendChild(ta);
+          ta.select();
+          try{ document.execCommand('copy'); showToast(); }
+          catch{ showToast(); }
+          document.body.removeChild(ta);
+        }
+      }
+
+      document.addEventListener('click', (e)=>{
+        const btn = e.target.closest('[data-copy-btn]');
+        if(!btn) return;
+        const val = btn.getAttribute('data-copy-btn') || '';
+        if(val) copyText(val);
+      });
+    })();
+
+    (function(){
+      const SEEN_KEY = "onilyxe_seen_once";
+      const firstVisit = !localStorage.getItem(SEEN_KEY);
+
+      if(firstVisit){
+        document.body.classList.add("no-stagger");
+        localStorage.setItem(SEEN_KEY, "1");
+      }
+
+      renderProfile();
+      renderMainLinks();
+      renderMoreLinksIcons();
+      renderPills();
+      renderDonate();
+      renderChannels();
+      renderBots();
+
+      if(firstVisit){
+        $("stagger").classList.add("is-in");
+        requestAnimationFrame(()=>document.body.classList.remove("no-stagger"));
+      } else {
+        requestAnimationFrame(()=> $("stagger").classList.add("is-in"));
+      }
+    })();
+  </script>
 </body>
-
-
 </html>
